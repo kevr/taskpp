@@ -8,5 +8,7 @@ project('taskpp', 'cpp',
 gtest = dependency('gtest', version : '>=1.11.0')
 gtest_main = dependency('gtest_main', version : '>=1.11.0')
 
+ncurses = dependency('ncurses', version : '>=6.3')
+
 test_flags = ['--coverage', '-g']
 subdir('src')
