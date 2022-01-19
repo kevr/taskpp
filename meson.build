@@ -5,4 +5,7 @@ project('taskpp', 'cpp',
   default_options : ['warning_level=3',
                      'cpp_std=c++20'])
 
+gtest = dependency('gtest', version : '>=1.11.0')
+gtest_main = dependency('gtest_main', version : '>=1.11.0')
+
 subdir('src')
