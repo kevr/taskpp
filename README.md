@@ -3,6 +3,8 @@ taskpp
 
 An open source command-line task management application written in C++.
 
+![pipeline](https://gitlab.com/kevr2d2/taskpp/badges/master/pipeline.svg?style=flat-square&key_text=master) ![coverage](https://gitlab.com/kevr2d2/taskpp/badges/master/coverage.svg?style=flat-square)
+
 With inspiration from [taskell](https://github.com/smallhadroncollider/taskell),
 _taskpp_ is intended to support JSON imports and exports to integrate with
 [Github](https://github.com) and [Gitlab](https://about.gitlab.com) APIs.
