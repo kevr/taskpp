@@ -3,4 +3,7 @@
 exe = executable('taskpp', 'main.cpp',
   install : true)
 
+exe_test = executable('main.test', 'main.test.cpp',
+  dependencies : [gtest, gtest_main])
+
 test('basic', exe)
