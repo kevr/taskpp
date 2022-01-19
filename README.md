@@ -43,16 +43,16 @@ their system:
 
     $ ninja -C builddir install
 
-
 Testing
 -------
 
 _taskpp_ uses the [Google Test](https://github.com/google/googletest)
 framework to perform tests against our source code.
 
-Code coverage is controlled by passing `-Db_coverage=true` to `meson`:
+Code coverage is controlled by passing `-Db_coverage=true` to `meson`.
+`-Dbuild_tests=true` must be set to run tests:
 
-    $ meson -Db_coverage=true builddir
+    $ meson -Db_coverage=true -Dbuild_tests=true builddir
 
 First, [Build](#building) the project. Next, run tests:
 
