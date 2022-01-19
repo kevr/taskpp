@@ -14,10 +14,10 @@ test:
   script:
     - ninja -C builddir
     - ninja -C builddir test
-    - ninja -C builddir coverage-text
-    - ninja -C builddir coverage-xml
+    - ninja -C builddir coverage-text >/dev/null
+    - ninja -C builddir coverage-xml >/dev/null
     - cp builddir/meson-logs/coverage.xml coverage.xml
-    - cat builddir/meson-logs/coverage.txt | head -n -1
+    - cat builddir/meson-logs/coverage.txt
   coverage: '/TOTAL.*\s+(\d+\%)/'
   artifacts:
     reports:
