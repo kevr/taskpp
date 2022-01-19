@@ -19,6 +19,12 @@ this project.
 Building
 --------
 
+Some dependencies are required to build _taskpp_:
+
+    meson
+    ninja
+    gcc, clang (with C++ frontend, support for C++20)
+
 First, configure `meson` for the project:
 
     $ meson builddir
