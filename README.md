@@ -31,8 +31,7 @@ First, configure `meson` for the project:
 
 Now that we have a build directory, we can compile the project:
 
-    $ cd builddir
-    $ ninja
+    $ ninja -C builddir
 
 Installation
 ------------
@@ -40,8 +39,44 @@ Installation
 After [Building](#building), users can install the project to
 their system:
 
-    $ cd builddir
-    $ ninja install
+    $ ninja -C builddir install
+
+
+Testing
+-------
+
+_taskpp_ uses the [Google Test](https://github.com/google/googletest)
+framework to perform tests against our source code.
+
+Code coverage is controlled by passing `-Db_coverage=true` to `meson`:
+
+    $ meson -Db_coverage=true builddir
+
+First, [Build](#building) the project. Next, run tests:
+
+    $ ninja -C builddir test
+
+After running tests, produce coverage reports:
+
+    $ ninja -C builddir coverage-text
+    $ ninja -C builddir coverage-xml
+
+**Note:** `meson` does not currently have a way to exclude source
+files from the coverage report. To cleanup coverage reports,
+[kevr's meson patch](https://github.com/kevr/meson/commit/73b04379fdd990ccb75c5b1b36600ead6445346e)
+can be used to add support for the `GCOV_ARGS` environment variable.
+We can then pass `--exclude` to `gcovr` via the new variable:
+
+    ## with kevr's meson patch
+    ## define GCOV_ARGS to exclude sources ending in .test.cpp
+    $ export GCOV_ARGS="--exclude '.*\.test\.cpp'"
+    $ ninja coverage-text -C builddir
+
+Going out of our way to exclude `.test.cpp` files is a bit too
+cumbersome without the aforementioned patch merged into `meson`
+upstream. We would primarily like to do this because branch
+coverage in `.test.cpp` files can be sporadic and we care about
+it being properly exercised within real application source code.
 
 Community
 ---------
@@ -49,7 +84,7 @@ Community
 * Visit our IRC channel **#taskpp** on [Libera.chat](https://libera.chat)
     * Web client: https://web.libera.chat/?channel=#taskpp
 
-* File an issue at https://github.com/kevr/taskpp
+* File an issue at https://gitlab.com/kevr2d2/taskpp
 
 * For private inquiries, send me an email at kevr@0cost.org
 
@@ -57,20 +92,14 @@ Contributing
 ------------
 
 Developers wishing to contribute to the project are absolutely welcome
-to do so. Pull requests are welcomed at any time in our Github repository.
+to do so. Merge requests are welcomed at any time in our Gitlab repository.
 
 If you're looking to find issues to help with, visit
-https://github.com/kevr/taskpp/issues to search for something
+https://gitlab.com/kevr2d2/taskpp/issues to search for something
 you'd like to work on.
 
 When it comes to modifying existing code, we require 100% coverage
 on any code that was touched (see [Testing](#testing)).
-
-Testing
--------
-
-_taskpp_ uses the [Google Test](https://github.com/google/googletest)
-framework to perform tests against our source code.
 
 Licensing
 ---------
