@@ -1,0 +1,24 @@
+image: archlinux:base-devel
+cache:
+  key: system-v1
+  paths:
+    # For some reason Gitlab CI only supports storing cache/artifacts in a path relative to the build directory
+    - .pkg-cache
+
+test:
+  stage: test
+  before_script:
+    - pacman -Syu --noconfirm --noprogressbar --cachedir .pkg-cache
+      meson gcc gcovr gtest
+    - meson -Db_coverage=true builddir
+  script:
+    - ninja -C builddir
+    - ninja -C builddir test
+    - ninja -C builddir coverage-text
+    - ninja -C builddir coverage-xml
+    - cp builddir/meson-logs/coverage.xml coverage.xml
+    - cat builddir/meson-logs/coverage.txt | head -n -1
+  coverage: '/TOTAL.*\s+(\d+\%)/'
+  artifacts:
+    reports:
+      cobertura: coverage.xml
