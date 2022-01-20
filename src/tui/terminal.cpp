@@ -16,18 +16,18 @@ Terminal::Terminal(void)
     }
 
     constructed = true;
-    window = initscr();
+    window = std::make_unique<Window>(initscr());
     refresh();
 }
 
 Terminal::~Terminal(void)
 {
-    delwin(window);
+    window.reset();
     endwin();
     constructed = false;
 }
 
 void Terminal::refresh(void)
 {
-    wrefresh(window);
+    wrefresh(window.get()->pointer());
 }

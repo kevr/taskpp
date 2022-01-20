@@ -4,7 +4,7 @@
 build_tests = get_option('build_tests')
 
 # Non-main source files.
-sources = ['tui/terminal.cpp']
+sources = ['tui/terminal.cpp', 'tui/window.cpp']
 
 if build_tests
   # Create a test version of `lib` with stubbed symbols.

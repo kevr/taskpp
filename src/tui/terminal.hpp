@@ -5,8 +5,9 @@
 #ifndef TUI_TERMINAL_HPP
 #define TUI_TERMINAL_HPP
 
-#include "ncurses.h"
+#include "window.hpp"
 #include <atomic>
+#include <memory>
 
 namespace taskpp
 {
@@ -30,7 +31,7 @@ private:
 
 private:
     //! Internal ncurses window handle
-    WINDOW *window = nullptr;
+    std::unique_ptr<Window> window;
 
 public:
     //! Construct a Terminal
