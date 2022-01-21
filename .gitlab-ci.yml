@@ -9,7 +9,7 @@ test:
   stage: test
   before_script:
     - pacman -Syu --noconfirm --noprogressbar --cachedir .pkg-cache
-      meson gcc gcovr gtest
+      meson gcc gcovr gtest fmt
     - meson -Db_coverage=true -Dbuild_tests=true builddir
   script:
     - ninja -C builddir

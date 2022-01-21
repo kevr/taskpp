@@ -26,6 +26,10 @@ Some dependencies are required to build _taskpp_:
     meson
     ninja
     gcc, clang (with C++ frontend, support for C++20)
+    gcovr (optional, for coverage)
+    lcov (optional, for html coverage)
+    gtest (required for testing)
+    libfmt
 
 First, configure `meson` for the project:
 

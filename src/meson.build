@@ -4,7 +4,7 @@
 build_tests = get_option('build_tests')
 
 # Non-main source files.
-sources = ['tui/terminal.cpp', 'tui/window.cpp']
+sources = ['tui/terminal.cpp', 'tui/window.cpp', 'logging.cpp']
 
 if build_tests
   # Create a test version of `lib` with stubbed symbols.
@@ -16,7 +16,7 @@ if build_tests
     cpp_args: test_flags,
     link_args: test_flags,
     link_with: [stubs],
-    dependencies: [gtest, gtest_main])
+    dependencies: [gtest, gtest_main, fmt])
   test_dep = declare_dependency(
     compile_args: test_flags,
     link_args: test_flags,
@@ -26,6 +26,10 @@ if build_tests
     'main.test.cpp',
     dependencies : [test_dep])
   test('basic', exe_test)
+  logging_test = executable('logging.test',
+    'logging.test.cpp',
+    dependencies : [test_dep])
+  test('basic', logging_test)
 endif
 
 # Build text user interface.
@@ -34,6 +38,6 @@ subdir('tui')
 # Main executable linked to lib.
 exec = executable('taskpp',
   sources: sources + ['main.cpp'],
-  dependencies: [ncurses],
+  dependencies: [ncurses, fmt],
   install : true)
 run_target('run', command: [exec])
