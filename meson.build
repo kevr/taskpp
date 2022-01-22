@@ -15,3 +15,7 @@ fmt = dependency('fmt', version : '>= 8.1.0')
 flags = ['-DPROJECT_ROOT="{}/src/"'.format(meson.source_root())]
 test_flags = ['--coverage', '-g']
 subdir('src')
+
+# This needs to be at the tail end, in case we want to group
+# operations together. Coverage should always be last :)
+run_target('show-coverage', command: ['scripts/coverage.sh'])

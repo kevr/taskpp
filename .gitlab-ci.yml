@@ -10,14 +10,14 @@ test:
   before_script:
     - pacman -Syu --noconfirm --noprogressbar --cachedir .pkg-cache
       meson gcc gcovr gtest fmt
-    - meson -Db_coverage=true -Dbuild_tests=true builddir
+    - meson -Db_coverage=true -Dbuild_tests=true build
   script:
-    - ninja -C builddir
-    - ninja -C builddir test
-    - ninja -C builddir coverage-text >/dev/null
-    - ninja -C builddir coverage-xml >/dev/null
-    - cp builddir/meson-logs/coverage.xml coverage.xml
-    - cat builddir/meson-logs/coverage.txt
+    - ninja -C build
+    - ninja -C build test
+    - ninja -C build coverage-text >/dev/null
+    - ninja -C build coverage-xml >/dev/null
+    - cp build/meson-logs/coverage.xml coverage.xml
+    - ninja -C build show-coverage
   coverage: '/TOTAL.*\s+(\d+\%)/'
   artifacts:
     reports:

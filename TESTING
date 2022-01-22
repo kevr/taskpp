@@ -26,8 +26,10 @@ Then, run the tests:
 Afterward, you can produce coverage reports:
 
     $ ninja -C builddir coverage-text
-    $ ninja -C builddir covearge-xml
-    $ ninja -C builddir covearge-html
+    $ ninja -C builddir show-coverage  # Print coverage to the shell
+
+    $ ninja -C builddir coverage-xml
+    $ ninja -C builddir coverage-html
 
 Libraries which interfere with tests
 ------------------------------------
