@@ -1,0 +1,55 @@
+This document covers testing features and guidelines for the taskpp project.
+
+Dependencies
+----------
+
+taskpp depends on the following libraries for testing:
+
+- `gtest`
+- `gtest_main`
+- `gmock`
+- `lcov (optional, html coverage reports)`
+- `gcovr (optional, text and xml coverage reports)`
+
+Building and running tests
+--------------------------
+
+First, build the project with tests enabled:
+
+    $ meson -Db_coverage=true -Dbuild_tests=true builddir
+    $ ninja -C builddir
+
+Then, run the tests:
+
+    $ ninja -C builddir test
+
+Afterward, you can produce coverage reports:
+
+    $ ninja -C builddir coverage-text
+    $ ninja -C builddir covearge-xml
+    $ ninja -C builddir covearge-html
+
+Libraries which interfere with tests
+------------------------------------
+
+Some libraries, like ncurses, are problematic for testing. To work around this
+issue in taskpp, we employ googlemock.
+
+When including a library into the project, link the library to the main
+executable. Tests should take advantage of mocks when real libraries interfere
+with them while providing stubs for the library functions.
+
+For example, the ncurses library is used in this project. For testing, we've
+defined:
+
+- `src/stubs/ncurses.cpp`
+- `src/mocks/ncurses.hpp`
+
+All libraries mocked this way should be stored in and accessed by the Library
+class, defined in `src/library.hpp`. Some functions are provided for static
+ease-of-use:
+
+- `taskpp::library<T>(const char *key)`
+- `taskpp::set_library<T>(const char *key, T& object)`
+
+These allow easy overwriting of libraries used by the project in tests.
