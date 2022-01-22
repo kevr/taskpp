@@ -168,6 +168,17 @@ int raw_error_log(const char *const fmt, Args &&...args)
     return rc_raw_error_log(1, fmt, args...);
 }
 
+std::string get_filename(const char *abs);
+
 }; // namespace taskpp
+
+#ifndef PROJECT_ROOT
+static_assert(false, "-DPROJECT_ROOT must be defined");
+#endif
+
+#define PROJECT_ROOT_LEN (sizeof(PROJECT_ROOT) / sizeof(PROJECT_ROOT[0])) - 1
+#define __FILENAME__ taskpp::get_filename(__FILE__)
+#define __LOCATION__                                                          \
+    __FILENAME__ + std::string("#L") + std::to_string(__LINE__)
 
 #endif /* LOGGING_HPP */

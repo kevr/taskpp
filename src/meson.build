@@ -19,12 +19,12 @@ if build_tests
   subdir('stubs')
   test_lib = static_library('taskpp_test_impl',
     sources: sources,
-    cpp_args: test_flags,
+    cpp_args: flags + test_flags,
     link_args: test_flags,
     link_with: [stubs],
     dependencies: [gtest, gtest_main, gmock, fmt])
   test_dep = declare_dependency(
-    compile_args: test_flags,
+    compile_args: flags + test_flags,
     link_args: test_flags,
     link_with: [test_lib])
 
@@ -44,6 +44,7 @@ subdir('tui')
 # Main executable linked to lib.
 exec = executable('taskpp',
   sources: sources + ['main.cpp'],
+  cpp_args: flags,
   dependencies: [ncurses, fmt],
   install : true)
 run_target('run', command: [exec])

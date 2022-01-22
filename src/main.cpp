@@ -9,7 +9,7 @@
 #include <iostream>
 using namespace taskpp;
 
-static Logger logger("main");
+static Logger logger(__LOCATION__);
 
 int main(int argc, char **argv)
 {

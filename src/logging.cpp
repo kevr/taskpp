@@ -47,3 +47,10 @@ std::ostream &Logger::error_stream(std::ostream &os)
     cerr = &os;
     return os;
 }
+
+std::string taskpp::get_filename(const char *abs)
+{
+    std::string path(abs);
+    path.erase(0, PROJECT_ROOT_LEN);
+    return path;
+}
