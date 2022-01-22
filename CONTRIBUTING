@@ -1,0 +1,39 @@
+This document contains requirements and information regarding
+contributing to the taskpp project. Our main repository is located at
+https://gitlab.com/kevr2d2/taskpp, where merge requests and issues
+should be filed.
+
+Code style
+----------
+
+To stay consistent with code style, we maintain a `.clang-format` file in the
+taskpp repository. We suggest the use of the `clang-format` tool to automate
+this.
+
+As far as naming conventions go, taskpp uses UpperCase for classes, snake_case
+for free functions and variables, and ALL_CAPS_WITH_UNDERLINES for constants.
+
+For the love of us all, please avoid using global variables.
+
+Meaningful merges
+-----------------
+
+To get code merged into the project, ensure that your patchset provides a
+meaningful change to the project. We will not accept any dead code or
+opinionated changes.
+
+Within a patchset, developers should logically separate the additions or
+changes contributed, and they should achieve a particular job.
+
+That being said, we encourage generic and reusable code where possible. This
+will allow us to keep a cleaner codebase over time, but, do not over-generalize
+over simplicity; of course, this always depends on the biproduct of the
+generalization and any complex changes should be discussed
+
+Test coverage
+-------------
+
+Any code committing in this project **requires** that the developer provide
+tests which produce 100% coverage over the source code added or modified.
+
+To test code in the project, read the TESTING document.
