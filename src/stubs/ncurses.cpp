@@ -2,6 +2,7 @@
  * Copyright (C) 2022 Kevin Morris
  * Complete GPLv2 text can be found in LICENSE.
  **/
+// LCOV_EXCL_START
 extern "C" {
 // Use some preprocessor hackery to avoid bringing in
 // the stub's real functions. We include ncurses.h here
@@ -16,6 +17,9 @@ extern "C" {
 #undef delwin
 #undef endwin
 
+int COLS = 0;
+int LINES = 0;
+
 //! noop
 WINDOW *initscr(void)
 {
@@ -23,20 +27,33 @@ WINDOW *initscr(void)
 }
 
 //! noop
+WINDOW *newwin(int, int, int, int)
+{
+    return nullptr;
+}
+
+//! noop
+int refresh(void)
+{
+    return OK;
+}
+
+//! noop
 int wrefresh(WINDOW *)
 {
-    return 0;
+    return OK;
 }
 
 //! noop
 int delwin(WINDOW *)
 {
-    return 0;
+    return OK;
 }
 
 //! noop
 int endwin(void)
 {
-    return 0;
+    return OK;
 }
 };
+// LCOV_EXCL_STOP

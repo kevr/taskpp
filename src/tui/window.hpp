@@ -5,7 +5,7 @@
 #ifndef TUI_WINDOW_HPP
 #define TUI_WINDOW_HPP
 
-#include <ncurses.h>
+#include "../iface/ncurses.hpp"
 
 namespace taskpp
 {
@@ -16,14 +16,24 @@ private:
     WINDOW *ptr = nullptr;
 
 public:
-    //! Construct a Window
-    Window(WINDOW *window);
+    /**
+     * @brief Construct a Window
+     *
+     * @param x Horizontal start position
+     * @param y Vertical start position
+     * @param w Horizontal width
+     * @param h Vertical height
+     **/
+    Window(int x, int y, int w, int h);
 
     //! Deconstruct a Window
-    ~Window(void);
+    virtual ~Window(void);
 
     //! Return Window's internal pointer
     WINDOW *pointer(void) const;
+
+    //! Refresh the window
+    int refresh(void) const;
 };
 
 }; // namespace taskpp

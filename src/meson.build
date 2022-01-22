@@ -4,7 +4,13 @@
 build_tests = get_option('build_tests')
 
 # Non-main source files.
-sources = ['tui/terminal.cpp', 'tui/window.cpp', 'logging.cpp']
+sources = [
+  'tui/terminal.cpp',
+  'tui/window.cpp',
+  'library.cpp',
+  'iface/ncurses.cpp',
+  'logging.cpp',
+]
 
 if build_tests
   # Create a test version of `lib` with stubbed symbols.
@@ -16,7 +22,7 @@ if build_tests
     cpp_args: test_flags,
     link_args: test_flags,
     link_with: [stubs],
-    dependencies: [gtest, gtest_main, fmt])
+    dependencies: [gtest, gtest_main, gmock, fmt])
   test_dep = declare_dependency(
     compile_args: test_flags,
     link_args: test_flags,

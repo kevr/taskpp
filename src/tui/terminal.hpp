@@ -8,6 +8,7 @@
 #include "window.hpp"
 #include <atomic>
 #include <memory>
+#include <optional>
 
 namespace taskpp
 {
@@ -20,18 +21,17 @@ namespace taskpp
  * live at any one time, guarded by the static Terminal::constructed
  * boolean.
  *
+ * Internally, std::optional<T>s are used to refer to Window-like classes
+ * derivatives.
+ *
  * If a second Terminal is constructed within the same scope, a
  * std::domain_error is thrown.
  **/
 class Terminal
 {
 private:
-    //! Static reference count guard; only one Terminal is allowed
-    static std::atomic<bool> constructed;
-
-private:
-    //! Internal ncurses window handle
-    std::unique_ptr<Window> window;
+    //! First child window.
+    std::optional<Window> window;
 
 public:
     //! Construct a Terminal
@@ -42,6 +42,13 @@ public:
 
     //! Refresh the root window
     void refresh(void);
+
+public:
+    //! Return global COLS macro
+    static int columns(void);
+
+    //! Return global LINES macro
+    static int rows(void);
 };
 
 }; // namespace taskpp
