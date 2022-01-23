@@ -6,6 +6,7 @@
  **/
 #include "config.hpp"
 #include "logging.hpp"
+#include "tui/terminal.hpp"
 #include <iostream>
 using namespace taskpp;
 
@@ -16,5 +17,7 @@ int main(int argc, char **argv)
     if (argc != 1)
         return raw_error_log("{} takes no arguments.", argv[0]);
     logger.info("This is project {}.", PROJECT_NAME);
+
+    Terminal term;
     return 0;
 }
