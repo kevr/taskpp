@@ -12,8 +12,14 @@ gmock = dependency('gmock', version : '>=1.11.0')
 ncurses = dependency('ncurses', version : '>=6.3')
 fmt = dependency('fmt', version : '>= 8.1.0')
 
-flags = ['-DPROJECT_ROOT="{}/src/"'.format(meson.source_root())]
-test_flags = ['--coverage', '-g']
+flags = [
+  '-DPROJECT_ROOT="{}/src/"'.format(meson.source_root())
+]
+test_flags = [
+  '--coverage',
+  '-g',
+  '-DBUILD_TEST',
+]
 subdir('src')
 
 # This needs to be at the tail end, in case we want to group

@@ -15,7 +15,6 @@ using ::testing::Return;
 
 class TerminalTest : public ::testing::Test
 {
-
 protected:
     NiceMock<MockNcurses> mock_ncurses;
     std::unique_ptr<Terminal> term;
@@ -25,11 +24,12 @@ public:
     {
         set_library("ncurses", mock_ncurses);
 
-        WINDOW *win = reinterpret_cast<WINDOW *>(1);
+        WINDOW *root = reinterpret_cast<WINDOW *>(1);
+        WINDOW *win = reinterpret_cast<WINDOW *>(2);
         EXPECT_CALL(mock_ncurses, initscr())
             .Times(AtLeast(1))
-            .WillRepeatedly(Return(win));
-        EXPECT_CALL(mock_ncurses, newwin(_, _, _, _))
+            .WillRepeatedly(Return(root));
+        EXPECT_CALL(mock_ncurses, subwin(_, _, _, _, _))
             .Times(AtLeast(1))
             .WillRepeatedly(Return(win));
         EXPECT_CALL(mock_ncurses, endwin())
@@ -53,4 +53,15 @@ TEST_F(TerminalTest, fails_second_construction)
 TEST_F(TerminalTest, refreshes)
 {
     term->refresh();
+}
+
+TEST_F(TerminalTest, dimensions)
+{
+    ASSERT_EQ(term->columns(), 0);
+    ASSERT_EQ(term->rows(), 0);
+}
+
+TEST(Terminal, null_stdscr)
+{
+    ASSERT_THROW(Terminal(), std::runtime_error);
 }

@@ -5,46 +5,48 @@
 #include "terminal.hpp"
 #include "../library.hpp"
 #include "../logging.hpp"
+#include <functional>
 #include <stdexcept>
 using namespace taskpp;
 
-static Logger logger("tui.terminal");
-
+static Logger logger(__LOCATION__);
 static std::atomic<bool> constructed;
 
 Terminal::Terminal(void)
 {
-    if (constructed.load()) {
+    if (constructed) {
         logger.error("already constructed");
         throw std::domain_error(
             "Only one Terminal can be constructed at any time.");
     }
+    constructed = true;
 
-    constructed.store(true);
+    auto &ncurses = ncurses();
 
     // Initialize the root window.
-    ncurses().initscr();
+    stdscr = ncurses.initscr();
+    if (!stdscr)
+        throw std::runtime_error("initscr");
+    ncurses.refresh();
+
+    ncurses.noecho();
+    ncurses.curs_set(FALSE);
 
     // Create a child window.
-    window = Window(0, 0, columns(), rows());
-    refresh();
+    window.set_parent(stdscr);
+    window.init(0, 0, 0, 0).box().refresh();
 }
 
 Terminal::~Terminal(void)
 {
-    // Cleanup the child window.
-    window.reset();
-
-    // Cleanup the root window.
+    window.teardown();
     ncurses().endwin();
-
-    constructed.store(false);
+    constructed = false;
 }
 
 void Terminal::refresh(void)
 {
-    ncurses().refresh();
-    window->refresh();
+    window.refresh();
 }
 
 int Terminal::columns(void)

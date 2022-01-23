@@ -11,9 +11,9 @@ WINDOW *Ncurses::initscr(void) const
     return ::initscr();
 }
 
-WINDOW *Ncurses::newwin(int y, int x, int h, int w) const
+WINDOW *Ncurses::subwin(WINDOW *parent, int h, int w, int y, int x) const
 {
-    return ::newwin(y, x, h, w);
+    return ::subwin(parent, h, w, y, x);
 }
 
 int Ncurses::refresh(void) const
@@ -44,5 +44,21 @@ int Ncurses::columns(void) const
 int Ncurses::rows(void) const
 {
     return LINES;
+}
+
+int Ncurses::noecho(void) const
+{
+    return ::noecho();
+}
+
+int Ncurses::curs_set(int visibility) const
+{
+    return ::curs_set(visibility);
+}
+
+int Ncurses::wborder(WINDOW *win, int a, int b, int c, int d, int e, int f,
+                     int g, int h) const
+{
+    return ::wborder(win, a, b, c, d, e, f, g, h);
 }
 // LCOV_EXCL_STOP

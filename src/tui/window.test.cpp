@@ -17,19 +17,20 @@ class WindowTest : public ::testing::Test
 {
 protected:
     NiceMock<MockNcurses> mock_ncurses;
-    std::unique_ptr<Window> window;
+    Window window { reinterpret_cast<WINDOW *>(1) };
 
 public:
     void SetUp(void)
     {
         set_library("ncurses", mock_ncurses);
 
-        WINDOW *win = reinterpret_cast<WINDOW *>(1);
-        EXPECT_CALL(mock_ncurses, newwin(_, _, _, _))
+        WINDOW *parent = reinterpret_cast<WINDOW *>(1);
+        WINDOW *win = reinterpret_cast<WINDOW *>(2);
+        EXPECT_CALL(mock_ncurses, subwin(_, _, _, _, _))
             .Times(AtLeast(1))
             .WillRepeatedly(Return(win));
 
-        window = std::make_unique<Window>(1, 1, 1, 1);
+        window.set_parent(parent).init(1, 1, 1, 1);
     }
 
     void TearDown(void)
@@ -38,22 +39,47 @@ public:
     }
 };
 
-TEST(Window, nullptr)
+TEST_F(WindowTest, works)
 {
-    ASSERT_THROW(Window(1, 1, 1, 1), std::runtime_error);
+    ASSERT_TRUE(window);
+}
+
+TEST_F(WindowTest, double_initialization)
+{
+    ASSERT_THROW(window.init(1, 1, 1, 1), std::runtime_error);
 }
 
 TEST_F(WindowTest, pointer)
 {
-    auto ptr = reinterpret_cast<WINDOW *>(1);
-    ASSERT_EQ(window->pointer(), ptr);
+    auto ptr = reinterpret_cast<WINDOW *>(2);
+    ASSERT_EQ(window.pointer(), ptr);
 }
 
 TEST_F(WindowTest, refresh)
 {
     EXPECT_CALL(mock_ncurses, wrefresh(_)).Times(1).WillOnce(Return(OK));
-    ASSERT_EQ(window->refresh(), OK);
+    ASSERT_EQ(window.refresh(), OK);
 
     EXPECT_CALL(mock_ncurses, wrefresh(_)).Times(1).WillOnce(Return(ERR));
-    ASSERT_EQ(window->refresh(), ERR);
+    ASSERT_EQ(window.refresh(), ERR);
+}
+
+TEST(Window, nullptr)
+{
+    ASSERT_THROW(Window().init(1, 1, 1, 1), std::runtime_error);
+}
+
+TEST(Window, subwin_fail_throws_runtime_error)
+{
+    NiceMock<MockNcurses> mock_ncurses;
+    set_library("ncurses", mock_ncurses);
+
+    auto parent = reinterpret_cast<WINDOW *>(1);
+    EXPECT_CALL(mock_ncurses, subwin(_, _, _, _, _))
+        .Times(AtLeast(1))
+        .WillRepeatedly(Return(nullptr));
+
+    ASSERT_THROW(Window(parent).init(1, 1, 1, 1), std::runtime_error);
+
+    restore_library();
 }

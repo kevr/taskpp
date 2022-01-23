@@ -4,21 +4,48 @@
  **/
 #include "window.hpp"
 #include "../library.hpp"
+#include "../logging.hpp"
+#include "../macros.hpp"
 #include <stdexcept>
 using namespace taskpp;
 
-Window::Window(int x, int y, int w, int h)
-    : ptr(ncurses().newwin(h, w, y, x))
+static Logger logger(__LOCATION__);
+
+Window::Window(WINDOW *parent)
 {
-    if (ptr == nullptr) {
-        throw std::runtime_error(
-            "newwin(h, w, y, x) is unable to create a new window.");
-    }
+    set_parent(parent);
 }
 
 Window::~Window(void)
 {
-    ncurses().delwin(ptr);
+    teardown();
+}
+
+Window &Window::set_parent(WINDOW *ptr)
+{
+    parent = ptr;
+    return *this;
+}
+
+Window &Window::init(int x, int y, int w, int h)
+{
+    if (!parent)
+        throw std::runtime_error("Window::parent cannot be null.");
+
+    if (ptr)
+        throw std::runtime_error("Window is already initialized.");
+
+    ptr = ncurses().subwin(parent, h, w, y, x);
+    if (!ptr)
+        throw std::runtime_error("subwin is unable to create a new window.");
+
+    refresh();
+    return *this;
+}
+
+Window::operator bool(void) const
+{
+    return bool(ptr);
 }
 
 WINDOW *Window::pointer(void) const
@@ -29,4 +56,18 @@ WINDOW *Window::pointer(void) const
 int Window::refresh(void) const
 {
     return ncurses().wrefresh(ptr);
+}
+
+const Window &Window::box(void) const
+{
+    ncurses().wborder(ptr, VLINE, VLINE, HLINE, HLINE, ULCORNER, URCORNER,
+                      LLCORNER, LRCORNER); // LCOV_EXCL_LINE
+    return *this;
+}
+
+const Window &Window::teardown(void) const
+{
+    if (ptr)
+        ncurses().delwin(ptr);
+    return *this;
 }

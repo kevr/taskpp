@@ -30,8 +30,11 @@ namespace taskpp
 class Terminal
 {
 private:
-    //! First child window.
-    std::optional<Window> window;
+    //! Root ncurses window
+    WINDOW *stdscr = nullptr;
+
+    //! First child window
+    Window window;
 
 public:
     //! Construct a Terminal
@@ -40,10 +43,9 @@ public:
     //! Deconstruct a Terminal
     ~Terminal(void);
 
-    //! Refresh the root window
+    //! Refresh the child Window
     void refresh(void);
 
-public:
     //! Return global COLS macro
     static int columns(void);
 

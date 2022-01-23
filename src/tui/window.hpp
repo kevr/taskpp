@@ -6,6 +6,7 @@
 #define TUI_WINDOW_HPP
 
 #include "../iface/ncurses.hpp"
+#include <atomic>
 
 namespace taskpp
 {
@@ -13,27 +14,49 @@ namespace taskpp
 class Window
 {
 private:
+    //! Internal pointer to the parent WINDOW
+    WINDOW *parent = nullptr;
+
+    //! Internal pointer to the ncurses WINDOW
     WINDOW *ptr = nullptr;
 
 public:
+    //! Construct a Window
+    Window(void) = default;
+
+    //! Construct a Window directly with a parent
+    Window(WINDOW *parent);
+
+    //! Deconstruct a Window
+    virtual ~Window(void);
+
+    //! Set the internal parent pointer
+    Window &set_parent(WINDOW *ptr);
+
     /**
-     * @brief Construct a Window
+     * @brief Initialize the Window
      *
      * @param x Horizontal start position
      * @param y Vertical start position
      * @param w Horizontal width
      * @param h Vertical height
      **/
-    Window(int x, int y, int w, int h);
+    Window &init(int x, int y, int w, int h);
 
-    //! Deconstruct a Window
-    virtual ~Window(void);
+    //! State of the Window
+    operator bool(void) const;
 
     //! Return Window's internal pointer
     WINDOW *pointer(void) const;
 
     //! Refresh the window
     int refresh(void) const;
+
+    //! Draw a border around the window
+    const Window &box(void) const;
+
+    //! Teardown internal window
+    const Window &teardown(void) const;
 };
 
 }; // namespace taskpp
