@@ -11,6 +11,8 @@ stages:
 lint:
   stage: .pre
   before_script:
+    - pacman -Sy --noconfirm --noprogressbar --cachedir .pkg-cache
+      archlinux-keyring
     - pacman -Syu --noconfirm --noprogressbar --cachedir .pkg-cache
       gcc fmt gtest clang
   script:
@@ -19,6 +21,8 @@ lint:
 build:
   stage: build
   before_script:
+    - pacman -Sy --noconfirm --noprogressbar --cachedir .pkg-cache
+      archlinux-keyring
     - pacman -Syu --noconfirm --noprogressbar --cachedir .pkg-cache
       meson gcc fmt clang
     - meson build
@@ -28,6 +32,8 @@ build:
 test:
   stage: test
   before_script:
+    - pacman -Sy --noconfirm --noprogressbar --cachedir .pkg-cache
+      archlinux-keyring
     - pacman -Syu --noconfirm --noprogressbar --cachedir .pkg-cache
       meson gcc gcovr gtest fmt clang
     - meson -Db_coverage=true -Dbuild_tests=true build
