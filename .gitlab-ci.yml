@@ -14,9 +14,9 @@ lint:
     - pacman -Sy --noconfirm --noprogressbar --cachedir .pkg-cache
       archlinux-keyring
     - pacman -Syu --noconfirm --noprogressbar --cachedir .pkg-cache
-      gcc fmt gtest clang
+      gcc fmt gtest clang python3
   script:
-    - bash -c 'clang-tidy $(find src -type f -name "*.*pp" | xargs)'
+    - ./scripts/tidy.py
 
 build:
   stage: build

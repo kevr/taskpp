@@ -6,14 +6,15 @@ should be filed.
 Code style
 ----------
 
-To stay consistent with code style, we maintain a `.clang-format` file in the
-taskpp repository. We suggest the use of the `clang-format` tool to automate
-this.
+- Code should be formatted using clang-format
+- Code should be linted using clang-tidy
+- `UpperCase` for types
+- `snake_case` for functions and variables
+- `ALL_CAPS_UNDERLINED` for global constants
+- Try to avoid using globals and heavily coupled implementations
 
-As far as naming conventions go, taskpp uses UpperCase for classes, snake_case
-for free functions and variables, and ALL_CAPS_WITH_UNDERLINES for constants.
-
-For the love of us all, please avoid using global variables.
+`scripts/tidy.py` is a Python3 script with no dependencies which runs
+clang-tidy in parallel on up to `multiprocessing.cpu_count()` threads.
 
 Meaningful merges
 -----------------
