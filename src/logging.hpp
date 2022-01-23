@@ -168,7 +168,7 @@ int raw_error_log(const char *const fmt, Args &&...args)
     return rc_raw_error_log(1, fmt, args...);
 }
 
-std::string get_filename(const char *abs);
+std::string get_filename(std::string path);
 
 }; // namespace taskpp
 

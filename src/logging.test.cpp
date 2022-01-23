@@ -88,3 +88,9 @@ TEST_F(LoggingTest, debug)
     logger.debug("Test");
     ASSERT_EQ(out.str(), "[DEBUG] test: Test\n");
 }
+
+TEST(logging, get_filename)
+{
+    std::string expected("logging.test.cpp");
+    ASSERT_EQ(taskpp::get_filename(__FILE__), expected);
+}
