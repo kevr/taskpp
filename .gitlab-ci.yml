@@ -4,12 +4,32 @@ cache:
   paths:
     # For some reason Gitlab CI only supports storing cache/artifacts in a path relative to the build directory
     - .pkg-cache
+stages:
+  - build
+  - test
+
+lint:
+  stage: .pre
+  before_script:
+    - pacman -Syu --noconfirm --noprogressbar --cachedir .pkg-cache
+      gcc fmt gtest clang
+  script:
+    - bash -c 'clang-tidy $(find src -type f -name "*.*pp" | xargs)'
+
+build:
+  stage: build
+  before_script:
+    - pacman -Syu --noconfirm --noprogressbar --cachedir .pkg-cache
+      meson gcc fmt clang
+    - meson build
+  script:
+    - ninja -C build
 
 test:
   stage: test
   before_script:
     - pacman -Syu --noconfirm --noprogressbar --cachedir .pkg-cache
-      meson gcc gcovr gtest fmt
+      meson gcc gcovr gtest fmt clang
     - meson -Db_coverage=true -Dbuild_tests=true build
   script:
     - ninja -C build

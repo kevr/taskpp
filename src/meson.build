@@ -13,6 +13,13 @@ sources = [
 ]
 
 if build_tests
+  # Include test libraries.
+  gtest = dependency('gtest', version : '>=1.11.0')
+  gtest_main = dependency('gtest_main', version : '>=1.11.0')
+  gmock = dependency('gmock', version : '>=1.11.0')
+endif
+
+if build_tests
   # Create a test version of `lib` with stubbed symbols.
   # We'll link this one to tests to avoid using thid-party
   # libraries or syscalls.
@@ -41,10 +48,12 @@ endif
 # Build text user interface.
 subdir('tui')
 
-# Main executable linked to lib.
-exec = executable('taskpp',
-  sources: sources + ['main.cpp'],
-  cpp_args: flags,
-  dependencies: [ncurses, fmt],
-  install : true)
-run_target('run', command: [exec])
+if not build_tests
+  # Main binary executable `taskpp`.
+  exec = executable('taskpp',
+    sources: sources + ['main.cpp'],
+    cpp_args: flags,
+    dependencies: [ncurses, fmt],
+    install : true)
+  run_target('run', command: [exec])
+endif
