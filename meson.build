@@ -9,7 +9,9 @@ ncurses = dependency('ncurses', version : '>=6.3')
 fmt = dependency('fmt', version : '>= 8.1.0')
 
 flags = [
-  '-DPROJECT_ROOT="{}/src/"'.format(meson.source_root())
+  '-Warith-conversion',
+  '-Werror',
+  '-DPROJECT_ROOT="{}/src/"'.format(meson.source_root()),
 ]
 test_flags = [
   '--coverage',
