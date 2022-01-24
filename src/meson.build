@@ -13,6 +13,7 @@ sources = [
   'config.cpp',
   'environment.cpp',
   'iface/os.cpp',
+  'string.cpp',
 ]
 
 if build_tests
@@ -54,6 +55,10 @@ if build_tests
     'environment.test.cpp',
     dependencies : [test_dep])
   test('basic', env_test)
+  string_test = executable('string.test',
+    'string.test.cpp',
+    dependencies : [test_dep])
+  test('basic', string_test)
 endif
 
 # Build text user interface.
