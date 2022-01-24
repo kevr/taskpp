@@ -40,10 +40,8 @@ test:
   script:
     - ninja -C build
     - ninja -C build test
-    - ninja -C build coverage-text >/dev/null
-    - ninja -C build coverage-xml >/dev/null
+    - ninja -C build cov
     - cp build/meson-logs/coverage.xml coverage.xml
-    - ninja -C build show-coverage
   coverage: '/TOTAL.*\s+(\d+\%)/'
   artifacts:
     reports:

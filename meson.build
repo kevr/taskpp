@@ -20,6 +20,4 @@ test_flags = [
 ]
 subdir('src')
 
-# This needs to be at the tail end, in case we want to group
-# operations together. Coverage should always be last :)
-run_target('show-coverage', command: ['scripts/coverage.sh'])
+run_target('cov', command: ['scripts/coverage.sh', '--xml'])
