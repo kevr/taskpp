@@ -27,6 +27,14 @@ public:
     virtual int curs_set(int) const = 0;
     virtual int wborder(WINDOW *, int, int, int, int, int, int, int,
                         int) const = 0;
+
+    // Coloring
+    virtual bool has_colors(void) const = 0;
+    virtual int start_color(void) const = 0;
+    virtual int use_default_colors(void) const = 0;
+    virtual int alloc_pair(int, int) const = 0;
+    virtual int wattr_on(WINDOW *, int) const = 0;
+    virtual int wattr_off(WINDOW *, int) const = 0;
 };
 
 class Ncurses : public NcursesInterface
@@ -46,6 +54,14 @@ public:
     int curs_set(int) const final override;
     int wborder(WINDOW *, int, int, int, int, int, int, int,
                 int) const final override;
+
+    // Coloring
+    bool has_colors(void) const final override;
+    int start_color(void) const final override;
+    int use_default_colors(void) const final override;
+    int alloc_pair(int, int) const final override;
+    int wattr_on(WINDOW *, int) const final override;
+    int wattr_off(WINDOW *, int) const final override;
 };
 
 }; // namespace taskpp

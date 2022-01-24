@@ -28,6 +28,12 @@ public:
     MOCK_METHOD(int, wborder,
                 (WINDOW *, int, int, int, int, int, int, int, int),
                 (const, override));
+    MOCK_METHOD(bool, has_colors, (), (const, override));
+    MOCK_METHOD(int, start_color, (), (const, override));
+    MOCK_METHOD(int, use_default_colors, (), (const, override));
+    MOCK_METHOD(int, alloc_pair, (int, int), (const, override));
+    MOCK_METHOD(int, wattr_on, (WINDOW *, int), (const, override));
+    MOCK_METHOD(int, wattr_off, (WINDOW *, int), (const, override));
 };
 
 }; // namespace taskpp

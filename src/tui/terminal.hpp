@@ -5,10 +5,10 @@
 #ifndef TUI_TERMINAL_HPP
 #define TUI_TERMINAL_HPP
 
+#include "color.hpp"
 #include "window.hpp"
 #include <atomic>
 #include <memory>
-#include <optional>
 
 namespace taskpp
 {
@@ -30,6 +30,9 @@ namespace taskpp
 class Terminal
 {
 private:
+    //! Internal color flag
+    bool has_colors = false;
+
     //! Root ncurses window
     WINDOW *stdscr = nullptr;
 

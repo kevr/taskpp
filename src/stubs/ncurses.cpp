@@ -15,6 +15,12 @@ extern "C" {
 #define noecho _noecho
 #define curs_set _curs_set
 #define wborder _wborder
+#define has_colors _has_colors
+#define start_color _start_color
+#define alloc_pair _alloc_pair
+#define wattr_on _wattron
+#define wattr_off _wattroff
+#define use_default_colors _use_default_colors
 #include <ncurses.h>
 #undef initscr
 #undef subwin
@@ -24,18 +30,18 @@ extern "C" {
 #undef noecho
 #undef curs_set
 #undef wborder
+#undef has_colors
+#undef start_color
+#undef alloc_pair
+#undef wattr_on
+#undef wattr_off
+#undef use_default_colors
 
 int COLS = 0;
 int LINES = 0;
 
 //! noop
 WINDOW *initscr(void)
-{
-    return nullptr;
-}
-
-//! noop
-WINDOW *newwin(int, int, int, int)
 {
     return nullptr;
 }
@@ -81,6 +87,36 @@ int curs_set(int)
 }
 
 int wborder(WINDOW *, int, int, int, int, int, int, int, int)
+{
+    return OK;
+}
+
+bool has_colors(void)
+{
+    return TRUE;
+}
+
+int start_color(void)
+{
+    return OK;
+}
+
+int use_default_colors(void)
+{
+    return OK;
+}
+
+int alloc_pair(int, int)
+{
+    return 0;
+}
+
+int wattr_on(int)
+{
+    return OK;
+}
+
+int wattr_off(int)
 {
     return OK;
 }

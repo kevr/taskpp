@@ -6,6 +6,8 @@
 #define TUI_WINDOW_HPP
 
 #include "../iface/ncurses.hpp"
+#include "../library.hpp"
+#include "color.hpp"
 #include <atomic>
 
 namespace taskpp
@@ -42,6 +44,16 @@ public:
      * @param h Vertical height
      **/
     Window &init(int x, int y, int w, int h);
+
+    template <typename Function>
+    Window &color(short attr, Function f)
+    {
+        auto &ncurses = ncurses();
+        ncurses.wattr_on(ptr, attr);
+        f(*this);
+        ncurses.wattr_off(ptr, attr);
+        return *this;
+    }
 
     //! State of the Window
     operator bool(void) const;

@@ -10,4 +10,9 @@ if build_tests
     'terminal.test.cpp',
     dependencies : [test_dep])
   test('basic', tui_terminal_test)
+
+  tui_color_test = executable('tui.color.test',
+    'color.test.cpp',
+    dependencies : [test_dep])
+  test('basic', tui_color_test)
 endif

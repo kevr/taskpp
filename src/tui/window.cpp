@@ -3,7 +3,6 @@
  * Complete GPLv2 text can be found in LICENSE.
  **/
 #include "window.hpp"
-#include "../library.hpp"
 #include "../logging.hpp"
 #include "../macros.hpp"
 #include <stdexcept>

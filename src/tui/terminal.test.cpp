@@ -61,6 +61,13 @@ TEST_F(TerminalTest, dimensions)
     ASSERT_EQ(term->rows(), 0);
 }
 
+TEST_F(TerminalTest, colored_terminal)
+{
+    term.reset();
+    EXPECT_CALL(mock_ncurses, has_colors()).Times(1).WillOnce(Return(true));
+    ASSERT_NO_THROW(Terminal());
+}
+
 TEST(Terminal, null_stdscr)
 {
     ASSERT_THROW(Terminal(), std::runtime_error);

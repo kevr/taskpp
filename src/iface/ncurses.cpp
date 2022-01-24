@@ -61,4 +61,34 @@ int Ncurses::wborder(WINDOW *win, int a, int b, int c, int d, int e, int f,
 {
     return ::wborder(win, a, b, c, d, e, f, g, h);
 }
+
+bool Ncurses::has_colors(void) const
+{
+    return ::has_colors();
+}
+
+int Ncurses::start_color(void) const
+{
+    return ::start_color();
+}
+
+int Ncurses::use_default_colors(void) const
+{
+    return ::use_default_colors();
+}
+
+int Ncurses::alloc_pair(int fg, int bg) const
+{
+    return ::alloc_pair(fg, bg);
+}
+
+int Ncurses::wattr_on(WINDOW *win, int attrs) const
+{
+    return ::wattron(win, attrs);
+}
+
+int Ncurses::wattr_off(WINDOW *win, int attrs) const
+{
+    return ::wattroff(win, attrs);
+}
 // LCOV_EXCL_STOP
