@@ -14,7 +14,7 @@ lint:
     - pacman -Sy --noconfirm --noprogressbar --cachedir .pkg-cache
       archlinux-keyring
     - pacman -Syu --noconfirm --noprogressbar --cachedir .pkg-cache
-      gcc fmt gtest clang python3
+      gcc gtest boost fmt clang python3
   script:
     - ./scripts/tidy.py
 
@@ -24,7 +24,7 @@ build:
     - pacman -Sy --noconfirm --noprogressbar --cachedir .pkg-cache
       archlinux-keyring
     - pacman -Syu --noconfirm --noprogressbar --cachedir .pkg-cache
-      meson gcc fmt clang
+      meson gcc boost fmt clang
     - meson build
   script:
     - ninja -C build
@@ -35,7 +35,7 @@ test:
     - pacman -Sy --noconfirm --noprogressbar --cachedir .pkg-cache
       archlinux-keyring
     - pacman -Syu --noconfirm --noprogressbar --cachedir .pkg-cache
-      meson gcc gcovr gtest fmt clang
+      meson gcc gcovr gtest boost fmt clang
     - meson -Db_coverage=true -Dbuild_tests=true build
   script:
     - ninja -C build

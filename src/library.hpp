@@ -85,5 +85,6 @@ Library &restore_library(void);
 
 // Global access macros.
 #define ncurses() taskpp::library<NcursesInterface>("ncurses")
+#define os() taskpp::library<OSInterface>("os")
 
 #endif /* LIBRARY_HPP */

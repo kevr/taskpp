@@ -10,6 +10,8 @@ sources = [
   'library.cpp',
   'iface/ncurses.cpp',
   'logging.cpp',
+  'environment.cpp',
+  'iface/os.cpp',
 ]
 
 if build_tests
@@ -29,7 +31,7 @@ if build_tests
     cpp_args: flags + test_flags,
     link_args: test_flags,
     link_with: [stubs],
-    dependencies: [gtest, gtest_main, gmock, fmt])
+    dependencies: [gtest, gtest_main, gmock, boost, fmt])
   test_dep = declare_dependency(
     compile_args: flags + test_flags,
     link_args: test_flags,
@@ -43,6 +45,10 @@ if build_tests
     'logging.test.cpp',
     dependencies : [test_dep])
   test('basic', logging_test)
+  env_test = executable('environment.test',
+    'environment.test.cpp',
+    dependencies : [test_dep])
+  test('basic', env_test)
 endif
 
 # Build text user interface.
@@ -53,7 +59,7 @@ if not build_tests
   exec = executable('taskpp',
     sources: sources + ['main.cpp'],
     cpp_args: flags,
-    dependencies: [ncurses, fmt],
+    dependencies: [boost, ncurses, fmt],
     install : true)
   run_target('run', command: [exec])
 endif

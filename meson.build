@@ -5,6 +5,8 @@ project('taskpp', 'cpp',
   default_options : ['warning_level=3',
                      'cpp_std=c++20'])
 
+boost = dependency('boost', version : '>=1.78.0',
+  modules : ['program_options', 'filesystem'])
 ncurses = dependency('ncurses', version : '>=6.3')
 fmt = dependency('fmt', version : '>=8.1.0')
 

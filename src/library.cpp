@@ -9,6 +9,9 @@ using namespace taskpp;
 
 Library::Library(void)
 {
+    static OS os;
+    set<OSInterface>("os", os);
+
     static Ncurses ncurses;
     set<NcursesInterface>("ncurses", ncurses);
 }

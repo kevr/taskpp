@@ -6,5 +6,6 @@
 #define IFACE_IFACE_HPP
 
 #include "ncurses.hpp"
+#include "os.hpp"
 
 #endif /* IFACE_IFACE_HPP */
