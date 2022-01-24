@@ -2,6 +2,7 @@
  * Copyright (C) 2022 Kevin Morris
  * Complete GPLv2 text can be found in LICENSE.
  **/
+#include <gtest/internal/gtest-port.h>
 #define main _main
 // We use a trick here, where we force main.cpp to define _main
 // instead of main(); that way, we can test _main and allow
@@ -57,7 +58,33 @@ TEST_F(MainTest, runs)
 
 TEST(main, invalid_args)
 {
-    const char *argv[3] = { arg0, "invalid", nullptr };
+    const char *argv[] = { arg0, "--invalid" };
     auto rc = _main(2, const_cast<char **>(argv));
     ASSERT_EQ(rc, 1);
+}
+
+TEST(main, help)
+{
+    const char *argv[] = { arg0, "--help" };
+    auto rc = _main(2, const_cast<char **>(argv));
+    ASSERT_EQ(rc, 0);
+}
+
+TEST(main, config_help)
+{
+    const char *argv[] = { arg0, "--config-help" };
+    auto rc = _main(2, const_cast<char **>(argv));
+    ASSERT_EQ(rc, 0);
+}
+
+TEST_F(MainTest, verbose)
+{
+    testing::internal::CaptureStdout();
+
+    const char *argv[] = { arg0, "--verbose" };
+    auto rc = _main(2, const_cast<char **>(argv));
+    ASSERT_EQ(rc, 0);
+
+    auto stdout_ = testing::internal::GetCapturedStdout();
+    ASSERT_NE(stdout_.find("Debug logging enabled."), std::string::npos);
 }

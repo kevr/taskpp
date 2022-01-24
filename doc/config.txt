@@ -1,0 +1,31 @@
+This document describes configuration file options supported by the program.
+
+An example configuration with comments can be found at examples/taskpp.conf.
+Each option is defined in this file underneath their relevant heading.
+
+For example, option_a can be found in the following section in the
+Configuration Options section:
+
+    option_a
+    --------
+    - option: option_a
+    - type: string
+    - default: "example"
+
+Configuration Options
+=====================
+
+verbose
+------
+- option: verbose
+- type: boolean
+- default: false
+
+Configuration Location
+======================
+
+By default, the $HOME/.taskpp file is sourced as a configuration if it
+can be found. Users can specify a custom configuration file using the
+--config program option:
+
+    $ taskpp --config my_tasks.conf

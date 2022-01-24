@@ -10,6 +10,7 @@ sources = [
   'library.cpp',
   'iface/ncurses.cpp',
   'logging.cpp',
+  'config.cpp',
   'environment.cpp',
   'iface/os.cpp',
 ]
@@ -45,6 +46,10 @@ if build_tests
     'logging.test.cpp',
     dependencies : [test_dep])
   test('basic', logging_test)
+  config_test = executable('config.test',
+    'config.test.cpp',
+    dependencies : [test_dep])
+  test('basic', config_test)
   env_test = executable('environment.test',
     'environment.test.cpp',
     dependencies : [test_dep])
