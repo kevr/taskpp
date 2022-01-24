@@ -9,13 +9,11 @@
 #include <stdexcept>
 using namespace taskpp;
 
-static Logger logger(__LOCATION__);
 static std::atomic<bool> constructed;
 
 Terminal::Terminal(void)
 {
     if (constructed) {
-        logger.error("already constructed");
         throw std::domain_error(
             "Only one Terminal can be constructed at any time.");
     }

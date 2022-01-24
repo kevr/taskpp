@@ -9,8 +9,6 @@
 #include <stdexcept>
 using namespace taskpp;
 
-static Logger logger(__LOCATION__);
-
 Window::Window(WINDOW *parent)
 {
     set_parent(parent);
