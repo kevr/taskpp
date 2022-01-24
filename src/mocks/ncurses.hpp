@@ -1,3 +1,7 @@
+/**
+ * Copyright (C) 2022 Kevin Morris
+ * Complete GPLv2 text can be found in LICENSE.
+ **/
 #ifndef MOCKS_NCURSES_HPP
 #define MOCKS_NCURSES_HPP
 
