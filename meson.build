@@ -6,7 +6,7 @@ project('taskpp', 'cpp',
                      'cpp_std=c++20'])
 
 ncurses = dependency('ncurses', version : '>=6.3')
-fmt = dependency('fmt', version : '>= 8.1.0')
+fmt = dependency('fmt', version : '>=8.1.0')
 
 flags = [
   '-Warith-conversion',
