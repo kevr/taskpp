@@ -42,7 +42,7 @@ private:
     std::string name;
 
     //! Internal log level
-    std::atomic<uint8_t> level { INFO };
+    static std::atomic<uint8_t> level;
 
     //! Internal pointer to an std::ostream used for normal output
     std::ostream *cout = &std::cout;
@@ -69,7 +69,7 @@ private:
      * @return Reference to output stream
      **/
     template <typename... Args>
-    std::ostream &output(std::ostream &os, uint8_t loglevel,
+    std::ostream &output(const size_t line, std::ostream &os, uint8_t loglevel,
                          const char *prefix, const char *fmt,
                          Args &&...args) const
     {
@@ -81,17 +81,18 @@ private:
         if (value >= loglevel) {
             auto view = std::string_view(fmt);
             auto fmtargs = fmt::make_format_args(args...);
-            return os << (prefix + " "s + name + ": "s +
+            return os << (prefix + " "s + name + "#L" + std::to_string(line) +
+                          ": " +
                           fmt::vformat(std::move(view), std::move(fmtargs)) +
-                          "\n"s);
+                          "\n");
         }
         return os;
     }
 
 public:
     //! Construct a Logger with optional cout and cerr
-    Logger(std::string name, LogLevel level = INFO,
-           std::ostream &cout = std::cout, std::ostream &cerr = std::cerr);
+    Logger(std::string name, std::ostream &cout = std::cout,
+           std::ostream &cerr = std::cerr);
 
     //! Move construct
     Logger(Logger &&other);
@@ -100,7 +101,7 @@ public:
     Logger &operator=(Logger &&other);
 
     //! Set the log level
-    Logger &set_level(LogLevel new_level);
+    static LogLevel set_level(LogLevel new_level);
 
     //! Set and return the output stream
     std::ostream &output_stream(std::ostream &os);
@@ -110,30 +111,34 @@ public:
 
     //! Log with the ERROR loglevel
     template <typename... Args>
-    std::ostream &error(const char *fmt, Args &&...args) const
+    std::ostream &error(const size_t line, const char *fmt,
+                        Args &&...args) const
     {
-        return output(*cerr, ERROR, "[ERROR]", fmt, args...);
+        return output(line, *cerr, ERROR, "[ERROR]", fmt, args...);
     }
 
     //! Log with the INFO loglevel
     template <typename... Args>
-    std::ostream &info(const char *fmt, Args &&...args) const
+    std::ostream &info(const size_t line, const char *fmt,
+                       Args &&...args) const
     {
-        return output(*cout, INFO, "[INFO]", fmt, args...);
+        return output(line, *cout, INFO, "[INFO]", fmt, args...);
     }
 
     //! Log with the WARN loglevel
     template <typename... Args>
-    std::ostream &warn(const char *fmt, Args &&...args) const
+    std::ostream &warn(const size_t line, const char *fmt,
+                       Args &&...args) const
     {
-        return output(*cerr, WARN, "[WARN]", fmt, args...);
+        return output(line, *cerr, WARN, "[WARN]", fmt, args...);
     }
 
     //! Log with the DEBUG loglevel
     template <typename... Args>
-    std::ostream &debug(const char *fmt, Args &&...args) const
+    std::ostream &debug(const size_t line, const char *fmt,
+                        Args &&...args) const
     {
-        return output(*cout, DEBUG, "[DEBUG]", fmt, args...);
+        return output(line, *cout, DEBUG, "[DEBUG]", fmt, args...);
     }
 };
 
@@ -178,7 +183,10 @@ static_assert(false, "-DPROJECT_ROOT must be defined");
 
 #define PROJECT_ROOT_LEN (sizeof(PROJECT_ROOT) / sizeof(PROJECT_ROOT[0])) - 1
 #define __FILENAME__ taskpp::get_filename(__FILE__)
-#define __LOCATION__                                                          \
-    __FILENAME__ + std::string("#L") + std::to_string(__LINE__)
+
+#define log_error(...) logger.error(__LINE__, __VA_ARGS__)
+#define log_info(...) logger.info(__LINE__, __VA_ARGS__)
+#define log_warn(...) logger.warn(__LINE__, __VA_ARGS__)
+#define log_debug(...) logger.debug(__LINE__, __VA_ARGS__)
 
 #endif /* LOGGING_HPP */
