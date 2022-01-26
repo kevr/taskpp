@@ -30,6 +30,10 @@ Some dependencies are required to build _taskpp_:
     lcov (optional, for html coverage)
     gtest (required for testing)
     libfmt
+    boost (program_options, filesystem)
+    doxygen (optional, for doc)
+    graphviz (optional, for doc)
+    git (required for meson project versioning; requires tags)
 
 First, configure `meson` for the project:
 

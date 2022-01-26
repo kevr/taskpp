@@ -17,6 +17,7 @@ lint:
 build:
   stage: build
   before_script:
+    - git -c http.sslVerify=false fetch --tags
     - meson build
   script:
     - ninja -C build

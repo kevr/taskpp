@@ -1,2 +1,8 @@
 option('build_tests', type : 'boolean', value : false)
 option('build_doc', type : 'boolean', value : false)
+
+#
+# version should be supplied via meson using the latest git tag:
+#   meson -Dversion="$(git describe --abbrev=0)"
+#
+option('version', type : 'string', value : '0.0.0')

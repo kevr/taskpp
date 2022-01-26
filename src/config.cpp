@@ -105,7 +105,7 @@ void Config::add_options(void)
     desc->add_options()("help,h", "print help message")(
         "config-help,x", "print config help text")(
         "config,c", po::value<std::string>()->default_value(DEFAULT_CONFIG),
-        "use a custom configuration");
+        "use a custom configuration")("version", "print taskpp's version");
     config->add_options()("verbose,v", po::bool_switch()->default_value(false),
                           "enable verbose logging");
 }

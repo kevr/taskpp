@@ -11,8 +11,6 @@
 namespace taskpp
 {
 
-const int HELP_CODE = 200;
-
 class App
 {
 private:

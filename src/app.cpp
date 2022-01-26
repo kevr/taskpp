@@ -17,9 +17,11 @@ int App::init(int argc, char **argv)
         return parse_error;
 
     if (config.has("help")) {
-        return config.help(std::cout, 0);
+        return config.help(std::cout, RETURN_HELP);
     } else if (config.has("config-help")) {
-        return config.config_help(std::cout, 0);
+        return config.config_help(std::cout, RETURN_HELP);
+    } else if (config.has("version")) {
+        return !(std::cout << VERSION << std::endl);
     } else if (config.get<bool>("verbose")) {
         logger.set_level(DEBUG);
         log_debug("Debug logging enabled.");

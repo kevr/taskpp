@@ -12,6 +12,7 @@
 
 #include "library.hpp"
 #include "mocks/ncurses.hpp"
+#include "string.hpp"
 #include <gtest/gtest.h>
 using ::testing::_;
 using ::testing::AtLeast;
@@ -75,6 +76,18 @@ TEST(main, config_help)
     const char *argv[] = { arg0, "--config-help" };
     auto rc = _main(2, const_cast<char **>(argv));
     ASSERT_EQ(rc, 0);
+}
+
+TEST(main, version)
+{
+    ::testing::internal::CaptureStdout();
+
+    const char *argv[] = { arg0, "--version" };
+    auto rc = _main(2, const_cast<char **>(argv));
+    ASSERT_EQ(rc, 0);
+
+    auto stdout_ = ::testing::internal::GetCapturedStdout();
+    ASSERT_EQ(strip(stdout_, "\n"), VERSION);
 }
 
 TEST_F(MainTest, verbose)

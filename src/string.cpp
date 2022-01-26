@@ -46,4 +46,9 @@ std::string replace(std::string target, const std::string &sub,
     return target;
 }
 
+std::string strip(const std::string &target, const std::string &substr)
+{
+    return replace(target, substr, "");
+}
+
 }; // namespace taskpp

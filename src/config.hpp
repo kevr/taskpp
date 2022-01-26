@@ -18,6 +18,9 @@
 namespace taskpp
 {
 
+// Sentinel value used to understand --help's return code.
+static const int RETURN_HELP = 256;
+
 class Config
 {
 private:

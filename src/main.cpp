@@ -6,17 +6,19 @@
  **/
 #include "app.hpp"
 #include "config.hpp"
-#include "logging.hpp"
 #include "tui/terminal.hpp"
 #include <iostream>
 using namespace taskpp;
 
-static Logger logger(__FILENAME__);
-
 int main(int argc, char **argv)
 {
     App app;
-    if (auto error_code = app.init(argc, argv))
+    if (auto error_code = app.init(argc, argv)) {
+        // If the error_code returned was HELP_CODE, we return
+        // successfully; --[config-]help was given.
+        if (error_code == RETURN_HELP)
+            return 0;
         return error_code;
+    }
     return app.run();
 }

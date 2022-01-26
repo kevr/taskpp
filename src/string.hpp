@@ -44,6 +44,15 @@ std::string join(const std::string &delim,
 std::string replace(std::string target, const std::string &sub,
                     const std::string &repl);
 
+/**
+ * @brief Strip substr from target completely
+ *
+ * @param target String to strip
+ * @param substr Substring to strip
+ * @return Stripped string
+ **/
+std::string strip(const std::string &target, const std::string &substr);
+
 }; // namespace taskpp
 
 #endif /* STRING_HPP */
