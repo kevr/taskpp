@@ -91,4 +91,9 @@ int Ncurses::wattr_off(WINDOW *win, int attrs) const
 {
     return ::wattroff(win, attrs);
 }
+
+int Ncurses::wbkgd(WINDOW *win, chtype color_pair) const
+{
+    return ::wbkgd(win, color_pair);
+}
 // LCOV_EXCL_STOP

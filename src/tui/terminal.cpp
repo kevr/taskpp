@@ -46,6 +46,7 @@ Terminal::Terminal(void)
     // Create a child window.
     window.set_parent(stdscr)
         .init(0, 0, 0, 0)
+        .set_color(get_color(COLOR_BAR))
         .color(get_color(COLOR_BAR),
                [](Window &window) {
                    window.box();

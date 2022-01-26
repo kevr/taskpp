@@ -35,6 +35,7 @@ public:
     virtual int alloc_pair(int, int) const = 0;
     virtual int wattr_on(WINDOW *, int) const = 0;
     virtual int wattr_off(WINDOW *, int) const = 0;
+    virtual int wbkgd(WINDOW *, chtype) const = 0;
 };
 
 class Ncurses : public NcursesInterface
@@ -62,6 +63,7 @@ public:
     int alloc_pair(int, int) const final override;
     int wattr_on(WINDOW *, int) const final override;
     int wattr_off(WINDOW *, int) const final override;
+    int wbkgd(WINDOW *, chtype) const final override;
 };
 
 }; // namespace taskpp

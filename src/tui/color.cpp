@@ -29,6 +29,11 @@ int Color::get(TermColor id) const
     return map.at(id);
 }
 
+void Color::clear(void)
+{
+    map.clear();
+}
+
 namespace taskpp
 {
 
@@ -41,7 +46,15 @@ int set_pair(TermColor id, int fg, int bg)
 
 int get_color(TermColor id)
 {
+    auto retval = Color::instance().get(id);
+    if (retval == -1)
+        return retval;
     return COLOR_PAIR(Color::instance().get(id));
+}
+
+void clear_colors(void)
+{
+    return Color::instance().clear();
 }
 
 }; // namespace taskpp

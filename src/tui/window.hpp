@@ -45,15 +45,25 @@ public:
      **/
     Window &init(int x, int y, int w, int h);
 
+    /**
+     * @brief Wrap a function f's call with color application
+     *
+     * @param color_pair Color pair to apply
+     * @param f Function to be wrapped
+     * @return Reference to this Window
+     **/
     template <typename Function>
-    Window &color(short attr, Function f)
+    Window &color(int color_pair, Function f)
     {
         auto &ncurses = ncurses();
-        ncurses.wattr_on(ptr, attr);
+        ncurses.wattr_on(ptr, color_pair);
         f(*this);
-        ncurses.wattr_off(ptr, attr);
+        ncurses.wattr_off(ptr, color_pair);
         return *this;
     }
+
+    //! Apply a color pair to the Window
+    Window &set_color(chtype color_pair);
 
     //! State of the Window
     operator bool(void) const;

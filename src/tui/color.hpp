@@ -35,11 +35,13 @@ private:
 private:
     void set(TermColor id, int pair);
     int get(TermColor id) const;
+    void clear(void);
 
     static Color &instance(void);
 
-    friend int set_pair(TermColor, int, int);
-    friend int get_color(TermColor);
+    friend int set_pair(TermColor id, int fg, int bg);
+    friend int get_color(TermColor id);
+    friend void clear_colors(void);
 };
 
 /**
@@ -59,6 +61,8 @@ int set_pair(TermColor id, int fg, int bg);
  * @return Pair identifier
  **/
 int get_color(TermColor id);
+
+void clear_colors(void);
 
 }; // namespace taskpp
 

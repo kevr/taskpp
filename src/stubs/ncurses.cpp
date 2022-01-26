@@ -21,6 +21,7 @@ extern "C" {
 #define wattr_on _wattron
 #define wattr_off _wattroff
 #define use_default_colors _use_default_colors
+#define wbkgd _wbkgd
 #include <ncurses.h>
 #undef initscr
 #undef subwin
@@ -36,6 +37,7 @@ extern "C" {
 #undef wattr_on
 #undef wattr_off
 #undef use_default_colors
+#undef wbkgd
 
 int COLS = 0;
 int LINES = 0;
@@ -117,6 +119,11 @@ int wattr_on(int)
 }
 
 int wattr_off(int)
+{
+    return OK;
+}
+
+int wbkgd(WINDOW *, chtype)
 {
     return OK;
 }

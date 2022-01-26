@@ -34,6 +34,7 @@ public:
     MOCK_METHOD(int, alloc_pair, (int, int), (const, override));
     MOCK_METHOD(int, wattr_on, (WINDOW *, int), (const, override));
     MOCK_METHOD(int, wattr_off, (WINDOW *, int), (const, override));
+    MOCK_METHOD(int, wbkgd, (WINDOW *, chtype), (const, override));
 };
 
 }; // namespace taskpp

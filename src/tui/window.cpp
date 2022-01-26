@@ -40,6 +40,12 @@ Window &Window::init(int x, int y, int w, int h)
     return *this;
 }
 
+Window &Window::set_color(chtype color_pair)
+{
+    ncurses().wbkgd(ptr, color_pair);
+    return *this;
+}
+
 Window::operator bool(void) const
 {
     return bool(ptr);
