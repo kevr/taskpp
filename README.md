@@ -121,6 +121,11 @@ you'd like to work on.
 When it comes to modifying existing code, we require 100% coverage
 on any code that was touched (see [Testing](#testing)).
 
+Assets
+------
+
+- Badges were sourced from https://img.shields.io/badge/.
+
 Licensing
 ---------
 
