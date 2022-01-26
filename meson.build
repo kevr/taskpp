@@ -23,3 +23,9 @@ test_flags = [
 subdir('src')
 
 run_target('cov', command: ['scripts/coverage.sh', '--xml'])
+
+if get_option('build_doc')
+  find_program('doxygen')
+  find_program('dot')
+  run_target('doc', command: ['scripts/doc.sh'])
+endif

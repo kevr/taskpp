@@ -84,6 +84,16 @@ upstream. We would primarily like to do this because branch
 coverage in `.test.cpp` files can be sporadic and we care about
 it being properly exercised within real application source code.
 
+Documentation
+-------------
+
+To build documentation for the project, run ninja's `doc` target:
+
+    $ ninja -C builddir doc
+
+Doxygen will be used to generate documentation and store output in
+`<project_root>/doxygen`.
+
 Community
 ---------
 
