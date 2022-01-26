@@ -45,7 +45,7 @@ private:
 
 public:
     //! Construct a Config
-    Config(const char *progname);
+    Config(void);
 
     //! Copy-construct a Config
     Config(const Config &other);

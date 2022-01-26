@@ -17,17 +17,17 @@ using namespace taskpp;
 static const std::string DEFAULT_CONFIG = config_file_path();
 static const size_t HELP_OPTION_WIDTH = 32;
 
-Config::Config(const char *progname)
-    : prog(progname)
-    , desc(std::make_unique<po::options_description>("Program options"))
+Config::Config(void)
+    : desc(std::make_unique<po::options_description>("Program options"))
     , config(std::make_unique<po::options_description>("Configuration"))
 {
     add_options();
 }
 
 Config::Config(const Config &other)
-    : Config(other.prog.c_str())
+    : Config()
 {
+    prog = other.prog;
     config_file = other.config_file;
     config_error = other.config_error;
     vm = other.vm;
@@ -112,6 +112,7 @@ void Config::add_options(void)
 
 int Config::parse_args(int argc, char **argv)
 {
+    prog = argv[0];
     try {
         parse(argc, argv);
     } catch (const po::unknown_option &e) {

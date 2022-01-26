@@ -15,6 +15,7 @@ sources = [
   'environment.cpp',
   'iface/os.cpp',
   'string.cpp',
+  'app.cpp',
 ]
 
 if build_tests

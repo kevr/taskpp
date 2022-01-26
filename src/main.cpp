@@ -4,6 +4,7 @@
  * Copyright (C) 2022 Kevin Morris
  * Complete GPLv2 text can be found in LICENSE.
  **/
+#include "app.hpp"
 #include "config.hpp"
 #include "logging.hpp"
 #include "tui/terminal.hpp"
@@ -14,22 +15,8 @@ static Logger logger(__FILENAME__);
 
 int main(int argc, char **argv)
 {
-    Config config(argv[0]);
-    auto err = config.parse_args(argc, argv);
-    if (err)
-        return err;
-
-    if (config.has("help")) {
-        return config.help(std::cout, 0);
-    } else if (config.has("config-help")) {
-        return config.config_help(std::cout, 0);
-    } else if (config.get<bool>("verbose")) {
-        logger.set_level(DEBUG);
-        log_debug("Debug logging enabled.");
-    }
-
-    log_info("This is project {}.", PROJECT_NAME);
-
-    Terminal term;
-    return 0;
+    App app;
+    if (auto error_code = app.init(argc, argv))
+        return error_code;
+    return app.run();
 }

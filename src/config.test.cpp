@@ -42,7 +42,7 @@ public:
 
 Config make_config(int argc, const char **argv)
 {
-    Config config(argv[0]);
+    Config config;
     if (auto rc = config.parse_args(argc, const_cast<char **>(argv)))
         throw std::runtime_error(
             fmt::format("Config::parse_args() returned {}", rc));
@@ -53,7 +53,7 @@ TEST(Config, no_args)
 {
     int argc = 1;
     const char *argv[] = { "taskpp", nullptr };
-    Config config(argv[0]);
+    Config config;
     config.parse_args(argc, const_cast<char **>(argv));
 
     // Check boolean options.
