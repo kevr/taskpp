@@ -12,7 +12,7 @@ stages:
 lint:
   stage: .pre
   script:
-    - ./scripts/tidy.py
+    - stdbuf -oL -eL ./scripts/tidy.py
 
 build:
   stage: build
