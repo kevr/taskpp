@@ -1,6 +1,8 @@
 # Directories
 /.cache
 /doxygen
+/build
+/builddir
 
 # Particular files
 /taskell.md
