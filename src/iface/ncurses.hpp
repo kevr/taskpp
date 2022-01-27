@@ -5,7 +5,9 @@
 #ifndef IFACE_NCURSES_HPP
 #define IFACE_NCURSES_HPP
 
+#include <boost/any.hpp>
 #include <ncurses.h>
+#include <vector>
 
 namespace taskpp
 {
@@ -27,6 +29,9 @@ public:
     virtual int curs_set(int) const = 0;
     virtual int wborder(WINDOW *, int, int, int, int, int, int, int,
                         int) const = 0;
+    virtual int wmove(WINDOW *, int, int) const = 0;
+
+    virtual int mvwprintw(WINDOW *, int, int, const std::string &) const = 0;
 
     // Coloring
     virtual bool has_colors(void) const = 0;
@@ -55,6 +60,9 @@ public:
     int curs_set(int) const final override;
     int wborder(WINDOW *, int, int, int, int, int, int, int,
                 int) const final override;
+    int wmove(WINDOW *, int, int) const final override;
+    int mvwprintw(WINDOW *, int, int,
+                  const std::string &) const final override;
 
     // Coloring
     bool has_colors(void) const final override;

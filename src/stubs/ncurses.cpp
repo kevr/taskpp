@@ -15,6 +15,8 @@ extern "C" {
 #define noecho _noecho
 #define curs_set _curs_set
 #define wborder _wborder
+#define wmove _wmove
+#define mvwprintw _mvwprintw
 #define has_colors _has_colors
 #define start_color _start_color
 #define alloc_pair _alloc_pair
@@ -31,6 +33,8 @@ extern "C" {
 #undef noecho
 #undef curs_set
 #undef wborder
+#undef wmove
+#undef mvwprintw
 #undef has_colors
 #undef start_color
 #undef alloc_pair
@@ -89,6 +93,16 @@ int curs_set(int)
 }
 
 int wborder(WINDOW *, int, int, int, int, int, int, int, int)
+{
+    return OK;
+}
+
+int wmove(WINDOW *, int, int)
+{
+    return OK;
+}
+
+int mvwprintw(WINDOW *, int, int, const char *, ...)
 {
     return OK;
 }

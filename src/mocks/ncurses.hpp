@@ -7,6 +7,7 @@
 
 #include "../iface/ncurses.hpp"
 #include <gmock/gmock.h>
+#include <gtest/gtest.h>
 
 namespace taskpp
 {
@@ -27,6 +28,9 @@ public:
     MOCK_METHOD(int, curs_set, (int), (const, override));
     MOCK_METHOD(int, wborder,
                 (WINDOW *, int, int, int, int, int, int, int, int),
+                (const, override));
+    MOCK_METHOD(int, wmove, (WINDOW *, int, int), (const, override));
+    MOCK_METHOD(int, mvwprintw, (WINDOW *, int, int, const std::string &),
                 (const, override));
     MOCK_METHOD(bool, has_colors, (), (const, override));
     MOCK_METHOD(int, start_color, (), (const, override));

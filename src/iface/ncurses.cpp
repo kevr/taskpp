@@ -4,6 +4,7 @@
  **/
 // LCOV_EXCL_START
 #include "ncurses.hpp"
+#include <fmt/format.h>
 using namespace taskpp;
 
 WINDOW *Ncurses::initscr(void) const
@@ -60,6 +61,17 @@ int Ncurses::wborder(WINDOW *win, int a, int b, int c, int d, int e, int f,
                      int g, int h) const
 {
     return ::wborder(win, a, b, c, d, e, f, g, h);
+}
+
+int Ncurses::wmove(WINDOW *win, int y, int x) const
+{
+    return ::wmove(win, y, x);
+}
+
+int Ncurses::mvwprintw(WINDOW *win, int y, int x,
+                       const std::string &message) const
+{
+    return ::mvwprintw(win, y, x, "%s", message.c_str());
 }
 
 bool Ncurses::has_colors(void) const
