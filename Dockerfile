@@ -5,4 +5,4 @@ VOLUME ["/var/cache/pacman/pkg"]
 RUN pacman-key --init
 RUN pacman -Sy --noconfirm --noprogressbar  archlinux-keyring
 RUN pacman -Syu --noconfirm --noprogressbar \
-    meson gcc gcovr gtest boost fmt clang git
+    meson gcc gcovr gtest boost fmt clang git curl sudo python cppcheck
