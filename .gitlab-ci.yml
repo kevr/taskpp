@@ -11,8 +11,9 @@ stages:
 
 lint:
   stage: .pre
+  variables:
   script:
-    - stdbuf -oL -eL ./scripts/tidy.py
+    - cppcheck src
 
 build:
   stage: build
