@@ -35,7 +35,7 @@ if build_tests
     cpp_args: flags + test_flags,
     link_args: test_flags,
     link_with: [stubs],
-    dependencies: [gtest, gtest_main, gmock, boost, fmt])
+    dependencies: [gtest, gtest_main, gmock, boost, fmt, dl])
   test_dep = declare_dependency(
     compile_args: flags + test_flags,
     link_args: test_flags,
@@ -61,6 +61,10 @@ if build_tests
     'string.test.cpp',
     dependencies : [test_dep])
   test('basic', string_test)
+  exceptions_test = executable('exceptions.test',
+    'exceptions.test.cpp',
+    dependencies : [test_dep])
+  test('basic', exceptions_test)
 endif
 
 # Build text user interface.
@@ -71,7 +75,7 @@ if not build_tests
   exec = executable('taskpp',
     sources: sources + ['main.cpp'],
     cpp_args: flags,
-    dependencies: [boost, ncurses, fmt],
+    dependencies: [boost, ncurses, fmt, dl],
     install : true)
   run_target('run', command: [exec])
 endif

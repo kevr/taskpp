@@ -20,9 +20,12 @@ patch = run_command('git', 'rev-list', '--count', desc + '..HEAD',
 patch = patch.stdout().strip()
 
 boost = dependency('boost', version : '>=1.78.0',
-  modules : ['program_options', 'filesystem'])
+  modules : ['program_options', 'filesystem', 'system'])
 ncurses = dependency('ncurses', version : '>=6.3')
 fmt = dependency('fmt', version : '>=8.1.0')
+
+cxx = meson.get_compiler('cpp')
+dl = cxx.find_library('dl')
 
 flags = [
   '-Warith-conversion',
