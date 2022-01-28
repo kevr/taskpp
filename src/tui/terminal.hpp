@@ -34,20 +34,28 @@ private:
     bool has_colors = false;
 
     //! Root ncurses window
-    WINDOW *stdscr = nullptr;
+    std::shared_ptr<Window> _stdscr;
 
     //! First child window
-    Window window;
+    std::shared_ptr<Window> _root;
 
 public:
     //! Construct a Terminal
-    Terminal(void);
+    Terminal(void) = default;
 
     //! Deconstruct a Terminal
     ~Terminal(void);
 
+    void start(void);
+
     //! Refresh the child Window
     void refresh(void);
+
+    //! Return the stdscr Window
+    std::shared_ptr<Window> stdscr(void) const;
+
+    //! Return the root Window
+    std::shared_ptr<Window> root(void) const;
 
     //! Return global COLS macro
     static int columns(void);

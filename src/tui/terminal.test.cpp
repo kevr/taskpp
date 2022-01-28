@@ -3,6 +3,7 @@
  * Complete GPLv2 text can be found in LICENSE.
  **/
 #include "terminal.hpp"
+#include "../exceptions.hpp"
 #include "../library.hpp"
 #include "../mocks/ncurses.hpp"
 #include <gtest/gtest.h>
@@ -37,17 +38,30 @@ public:
             .WillRepeatedly(Return(OK));
 
         term = std::make_unique<Terminal>();
+        term->start();
     }
 
     void TearDown(void)
     {
         restore_library();
+        clear_colors();
     }
 };
 
-TEST_F(TerminalTest, fails_second_construction)
+TEST(Terminal, initscr_failure_throws)
 {
-    ASSERT_THROW(Terminal(), std::domain_error);
+    NiceMock<MockNcurses> mock_ncurses;
+    set_library("ncurses", mock_ncurses);
+    EXPECT_CALL(mock_ncurses, initscr())
+        .Times(AtLeast(0))
+        .WillOnce(Return(nullptr));
+    ASSERT_THROW(Terminal().start(), ResourceError);
+    restore_library();
+}
+
+TEST_F(TerminalTest, fails_second_start)
+{
+    ASSERT_THROW(Terminal().start(), std::logic_error);
 }
 
 TEST_F(TerminalTest, refreshes)
@@ -65,10 +79,11 @@ TEST_F(TerminalTest, colored_terminal)
 {
     term.reset();
     EXPECT_CALL(mock_ncurses, has_colors()).Times(1).WillOnce(Return(true));
-    ASSERT_NO_THROW(Terminal());
+    ASSERT_NO_THROW(Terminal().start());
 }
 
 TEST(Terminal, null_stdscr)
 {
-    ASSERT_THROW(Terminal(), std::runtime_error);
+    ASSERT_THROW(Terminal().start(), ResourceError);
+    clear_colors();
 }

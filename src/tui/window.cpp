@@ -5,12 +5,35 @@
 #include "window.hpp"
 #include "../logging.hpp"
 #include "../macros.hpp"
+#include "exceptions.hpp"
+#include <algorithm>
 #include <stdexcept>
 using namespace taskpp;
 
-Window::Window(WINDOW *parent)
+static Logger logger(__FILENAME__);
+
+Window::Window(WINDOW *ptr)
+    : ptr(ptr)
 {
-    set_parent(parent);
+}
+
+Window::Window(const Window &other)
+    : parent(other.parent)
+    , prev(other.prev)
+    , ptr(other.ptr)
+    , node(other.node)
+    , children(other.children)
+{
+}
+
+Window::Window(Window &&other)
+    : parent(other.parent)
+    , prev(std::move(other.prev))
+    , ptr(other.ptr)
+    , node(std::move(other.node))
+    , children(std::move(other.children))
+{
+    other.parent = other.ptr = nullptr; // Reset other's raw pointers
 }
 
 Window::~Window(void)
@@ -18,23 +41,48 @@ Window::~Window(void)
     teardown();
 }
 
+Window &Window::operator=(const Window &other)
+{
+    parent = other.parent;
+    prev = other.prev;
+    ptr = other.ptr;
+    node = other.node;
+    children = other.children;
+    return *this;
+}
+
+Window &Window::operator=(Window &&other)
+{
+    parent = other.parent;
+    prev = std::move(other.prev);
+    ptr = other.ptr;
+    node = std::move(other.node);
+    children = std::move(other.children);
+    other.parent = other.ptr = nullptr; // Reset other's raw pointers
+    return *this;
+}
+
 Window &Window::set_parent(WINDOW *ptr)
 {
     parent = ptr;
+    prev = std::make_shared<Window>(parent);
+    if (node) {
+        node->set_parent(parent);
+    }
     return *this;
 }
 
 Window &Window::init(int x, int y, int w, int h)
 {
-    if (!parent)
-        throw std::runtime_error("Window::parent cannot be null.");
+    ASSERT_NOT_NULL_ACTOR(parent, "Window::parent");
+    prev = std::make_shared<Window>(parent);
 
-    if (ptr)
-        throw std::runtime_error("Window is already initialized.");
-
+    ASSERT_NULL_ACTOR(ptr, "Window::ptr");
     ptr = ncurses().subwin(parent, h, w, y, x);
-    if (!ptr)
-        throw std::runtime_error("subwin is unable to create a new window.");
+    ASSERT_NOT_NULL_ACTOR(ptr, "Window::ptr");
+
+    node = std::make_shared<Window>(ptr);
+    node->set_parent(parent);
 
     refresh();
     return *this;
@@ -46,9 +94,14 @@ Window &Window::set_color(chtype color_pair)
     return *this;
 }
 
+Window::operator WINDOW *(void) const
+{
+    return ptr;
+}
+
 Window::operator bool(void) const
 {
-    return bool(ptr);
+    return ptr;
 }
 
 WINDOW *Window::pointer(void) const
@@ -56,8 +109,18 @@ WINDOW *Window::pointer(void) const
     return ptr;
 }
 
+Window &Window::add_child(std::shared_ptr<Window> child)
+{
+    if (std::find(children.begin(), children.end(), child) == children.end()) {
+        children.push_back(child);
+    }
+    return *this;
+}
+
 int Window::refresh(void) const
 {
+    for (auto &child : children)
+        child->refresh();
     return ncurses().wrefresh(ptr);
 }
 
@@ -68,9 +131,27 @@ const Window &Window::box(void) const
     return *this;
 }
 
-const Window &Window::teardown(void) const
+const Window &Window::teardown(void)
 {
-    if (ptr)
-        ncurses().delwin(ptr);
+    children.clear();
+
+    if (ptr) {
+        if (!parent) {
+            ncurses().endwin();
+        } else {
+            ncurses().delwin(ptr);
+        }
+    }
+
     return *this;
+}
+
+std::vector<std::shared_ptr<Window>> Window::get_children(void) const
+{
+    return children;
+}
+
+void Window::draw(void)
+{
+    // noop
 }

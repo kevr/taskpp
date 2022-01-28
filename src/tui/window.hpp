@@ -9,28 +9,48 @@
 #include "../library.hpp"
 #include "color.hpp"
 #include <atomic>
+#include <functional>
+#include <memory>
 
 namespace taskpp
 {
+
+static const int PADDING = 1;
 
 class Window
 {
 private:
     //! Internal pointer to the parent WINDOW
     WINDOW *parent = nullptr;
+    std::shared_ptr<Window> prev;
 
     //! Internal pointer to the ncurses WINDOW
     WINDOW *ptr = nullptr;
+    std::shared_ptr<Window> node;
+
+    std::vector<std::shared_ptr<Window>> children;
 
 public:
     //! Construct a Window
     Window(void) = default;
 
     //! Construct a Window directly with a parent
-    Window(WINDOW *parent);
+    Window(WINDOW *ptr);
+
+    //! Copy constructor
+    Window(const Window &other);
+
+    //! Move constructor
+    Window(Window &&other);
 
     //! Deconstruct a Window
     virtual ~Window(void);
+
+    //! Copy assignment operator
+    Window &operator=(const Window &other);
+
+    //! Move assignment operator
+    Window &operator=(Window &&other);
 
     //! Set the internal parent pointer
     Window &set_parent(WINDOW *ptr);
@@ -65,11 +85,16 @@ public:
     //! Apply a color pair to the Window
     Window &set_color(chtype color_pair);
 
+    //! Internal pointer representation
+    operator WINDOW *(void) const;
+
     //! State of the Window
     operator bool(void) const;
 
     //! Return Window's internal pointer
     WINDOW *pointer(void) const;
+
+    Window &add_child(std::shared_ptr<Window> child);
 
     //! Refresh the window
     int refresh(void) const;
@@ -78,7 +103,13 @@ public:
     const Window &box(void) const;
 
     //! Teardown internal window
-    const Window &teardown(void) const;
+    const Window &teardown(void);
+
+    //! Return a collection copy of this Window's children.
+    std::vector<std::shared_ptr<Window>> get_children(void) const;
+
+    //! Should be implemented in derivatives.
+    virtual void draw(void);
 };
 
 }; // namespace taskpp

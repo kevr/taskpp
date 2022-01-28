@@ -11,13 +11,19 @@
 #undef main
 
 #include "library.hpp"
+#include "logging.hpp"
 #include "mocks/ncurses.hpp"
 #include "string.hpp"
+#include <boost/stacktrace.hpp>
 #include <gtest/gtest.h>
+#include <mutex>
 using ::testing::_;
 using ::testing::AtLeast;
 using ::testing::NiceMock;
 using ::testing::Return;
+
+static Logger logger(__FILENAME__);
+static std::mutex mtx;
 
 class MainTest : public ::testing::Test
 {
@@ -41,6 +47,12 @@ public:
         EXPECT_CALL(mock_ncurses, endwin())
             .Times(AtLeast(0))
             .WillRepeatedly(Return(OK));
+        EXPECT_CALL(mock_ncurses, columns())
+            .Times(AtLeast(0))
+            .WillRepeatedly(Return(80));
+        EXPECT_CALL(mock_ncurses, rows())
+            .Times(AtLeast(0))
+            .WillRepeatedly(Return(40));
     }
 
     void TearDown(void)
@@ -78,15 +90,15 @@ TEST(main, config_help)
     ASSERT_EQ(rc, 0);
 }
 
-TEST(main, version)
+TEST_F(MainTest, version)
 {
-    ::testing::internal::CaptureStdout();
+    testing::internal::CaptureStdout();
 
     const char *argv[] = { arg0, "--version" };
     auto rc = _main(2, const_cast<char **>(argv));
     ASSERT_EQ(rc, 0);
 
-    auto stdout_ = ::testing::internal::GetCapturedStdout();
+    auto stdout_ = testing::internal::GetCapturedStdout();
     ASSERT_EQ(strip(stdout_, "\n"), VERSION);
 }
 

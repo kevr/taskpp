@@ -3,9 +3,10 @@
  * Complete GPLv2 text can be found in LICENSE.
  **/
 #include "terminal.hpp"
+#include "../exceptions.hpp"
 #include "../library.hpp"
 #include "../logging.hpp"
-#include "../tui/color.hpp"
+#include "color.hpp"
 #include <functional>
 #include <stdexcept>
 using namespace taskpp;
@@ -13,20 +14,24 @@ using namespace taskpp;
 static std::atomic<bool> constructed;
 static Logger logger(__FILENAME__);
 
-Terminal::Terminal(void)
+void Terminal::start(void)
 {
+    // This class can only be constructed once at any time. `constructed`
+    // is a static std::atomic<bool> used to detect this.
     if (constructed) {
-        throw std::domain_error(
+        throw std::logic_error(
             "Only one Terminal can be constructed at any time.");
     }
     constructed = true;
 
     auto &ncurses = ncurses();
 
-    // Initialize the root window.
-    stdscr = ncurses.initscr();
-    if (!stdscr)
-        throw std::runtime_error("initscr");
+    // Initialize the screen.
+    auto *scr = ncurses.initscr();
+    ASSERT_NOT_NULL(scr);
+
+    // Produce a Window out of the screen.
+    _stdscr = std::make_shared<Window>(scr);
     ncurses.refresh();
 
     // Initialize colors.
@@ -43,27 +48,31 @@ Terminal::Terminal(void)
     ncurses.noecho();
     ncurses.curs_set(FALSE);
 
-    // Create a child window.
-    window.set_parent(stdscr)
-        .init(0, 0, 0, 0)
-        .set_color(get_color(COLOR_BAR))
-        .color(get_color(COLOR_BAR),
-               [](Window &window) {
-                   window.box();
-               })
-        .refresh();
+    // Create a child window of _stdscr.
+    _root = std::make_shared<Window>();
+    _root->set_parent(*_stdscr).init(0, 0, 0, 0);
 }
 
 Terminal::~Terminal(void)
 {
-    window.teardown();
-    ncurses().endwin();
+    if (_root)
+        _root->teardown();
     constructed = false;
 }
 
 void Terminal::refresh(void)
 {
-    window.refresh();
+    _root->refresh();
+}
+
+std::shared_ptr<Window> Terminal::stdscr(void) const
+{
+    return _stdscr;
+}
+
+std::shared_ptr<Window> Terminal::root(void) const
+{
+    return _root;
 }
 
 int Terminal::columns(void)

@@ -43,8 +43,8 @@ extern "C" {
 #undef use_default_colors
 #undef wbkgd
 
-int COLS = 0;
-int LINES = 0;
+int COLS = 80;
+int LINES = 40;
 
 //! noop
 WINDOW *initscr(void)
