@@ -6,6 +6,7 @@
 #define APP_HPP
 
 #include "config.hpp"
+#include "tui/screen.hpp"
 #include "tui/terminal.hpp"
 
 namespace taskpp
@@ -14,8 +15,12 @@ namespace taskpp
 class App
 {
 private:
+    //! Application configuration object
     Config config;
-    Terminal *term = nullptr;
+
+    //! TUI management objects
+    Terminal term;
+    Screen screen;
 
 public:
     //! Initialize the application
