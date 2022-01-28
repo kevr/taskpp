@@ -3,6 +3,7 @@
  * Complete GPLv2 text can be found in LICENSE.
  **/
 #include "screen.hpp"
+#include "window.hpp"
 #include <logging.hpp>
 using namespace taskpp;
 
@@ -12,8 +13,8 @@ void Screen::init(std::shared_ptr<Window> stdscr, std::shared_ptr<Window> root)
 {
     this->stdscr = std::move(stdscr);
     this->root = std::move(root);
-    emplace(SCREEN, this->stdscr);
-    emplace(SCREEN, ROOT, this->root);
+    emplace(TERM, this->stdscr);
+    emplace(TERM, ROOT, this->root);
 }
 
 void Screen::emplace(Widget w, std::shared_ptr<Window> window)

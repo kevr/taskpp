@@ -23,7 +23,6 @@ using ::testing::NiceMock;
 using ::testing::Return;
 
 static Logger logger(__FILENAME__);
-static std::mutex mtx;
 
 class MainTest : public ::testing::Test
 {

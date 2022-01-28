@@ -40,7 +40,7 @@ public:
     }
 };
 
-Config make_config(int argc, const char **argv)
+static Config make_config(int argc, const char **argv)
 {
     Config config;
     if (auto rc = config.parse_args(argc, const_cast<char **>(argv)))

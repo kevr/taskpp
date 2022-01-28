@@ -3,7 +3,8 @@
  * Complete GPLv2 text can be found in LICENSE.
  **/
 #include "library.hpp"
-#include "iface/iface.hpp"
+#include "iface/ncurses.hpp"
+#include "iface/os.hpp"
 #include <memory>
 using namespace taskpp;
 

@@ -7,6 +7,7 @@
 #include "../library.hpp"
 #include "../logging.hpp"
 #include "color.hpp"
+#include "window.hpp"
 #include <functional>
 #include <stdexcept>
 using namespace taskpp;

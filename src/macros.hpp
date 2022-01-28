@@ -8,7 +8,7 @@
 #ifndef BUILD_TEST
 // Macros defined for executable.
 // LCOV_EXCL_START
-#include "ncurses.h"
+#include <ncurses.h>
 #define VLINE ACS_VLINE
 #define HLINE ACS_HLINE
 #define ULCORNER ACS_ULCORNER

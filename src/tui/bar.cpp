@@ -3,8 +3,9 @@
  * Complete GPLv2 text can be found in LICENSE.
  **/
 #include "bar.hpp"
-#include "config.hpp"
-#include "logging.hpp"
+#include "../config.hpp"
+#include "../logging.hpp"
+#include "color.hpp"
 using namespace taskpp;
 
 static Logger logger(__FILENAME__);
