@@ -7,6 +7,7 @@ build_tests = get_option('build_tests')
 sources = [
   'tui/screen.cpp',
   'tui/terminal.cpp',
+  'tui/bar.cpp',
   'tui/window.cpp',
   'tui/color.cpp',
   'library.cpp',
