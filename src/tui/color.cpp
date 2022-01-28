@@ -2,7 +2,7 @@
  * Copyright (C) 2022 Kevin Morris
  * Complete GPLv2 text can be found in LICENSE.
  **/
-#include "tui/color.hpp"
+#include "color.hpp"
 #include "../iface/ncurses.hpp"
 #include "../library.hpp"
 #include <fmt/format.h>
@@ -36,7 +36,6 @@ void Color::clear(void)
 
 namespace taskpp
 {
-
 int set_pair(TermColor id, int fg, int bg)
 {
     int pair = ncurses().alloc_pair(fg, bg);
@@ -56,5 +55,4 @@ void clear_colors(void)
 {
     return Color::instance().clear();
 }
-
 }; // namespace taskpp

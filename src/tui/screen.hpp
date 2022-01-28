@@ -5,14 +5,16 @@
 #ifndef TUI_SCREEN_HPP
 #define TUI_SCREEN_HPP
 
-#include "window.hpp"
 #include <map>
+#include <memory>
 #include <string>
 
 namespace taskpp
 {
 
-enum Widget : int { SCREEN, ROOT, HEADER_BAR, BOARD, LIST, FOOTER_BAR };
+enum Widget : int { TERM, ROOT, HEADER_BAR, BOARD, LIST, FOOTER_BAR };
+
+class Window;
 
 class Screen
 {

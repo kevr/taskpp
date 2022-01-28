@@ -5,13 +5,13 @@
 #ifndef TUI_TERMINAL_HPP
 #define TUI_TERMINAL_HPP
 
-#include "color.hpp"
-#include "window.hpp"
 #include <atomic>
 #include <memory>
 
 namespace taskpp
 {
+
+class Window;
 
 /**
  * @brief All-encompassing ncurses terminal

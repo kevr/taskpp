@@ -6,6 +6,7 @@
 #include "../exceptions.hpp"
 #include "../library.hpp"
 #include "../mocks/ncurses.hpp"
+#include "color.hpp"
 #include <gtest/gtest.h>
 #include <memory>
 using namespace taskpp;

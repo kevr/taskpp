@@ -7,10 +7,10 @@
 
 #include "../iface/ncurses.hpp"
 #include "../library.hpp"
-#include "color.hpp"
 #include <atomic>
 #include <functional>
 #include <memory>
+#include <ncurses.h>
 
 namespace taskpp
 {

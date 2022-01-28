@@ -125,7 +125,7 @@ int Config::parse_args(int argc, char **argv)
     return 0;
 }
 
-void print_options(std::ostream &os, po::options_description &desc)
+static void print_options(std::ostream &os, po::options_description &desc)
 {
     for (auto &opt : desc.options()) {
         auto option = opt->format_name();

@@ -3,9 +3,9 @@
  * Complete GPLv2 text can be found in LICENSE.
  **/
 #include "window.hpp"
+#include "../exceptions.hpp"
 #include "../logging.hpp"
 #include "../macros.hpp"
-#include "exceptions.hpp"
 #include <algorithm>
 #include <stdexcept>
 using namespace taskpp;
