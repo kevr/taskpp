@@ -5,6 +5,7 @@ build_tests = get_option('build_tests')
 
 # Non-main source files.
 sources = [
+  'tui/screen.cpp',
   'tui/terminal.cpp',
   'tui/window.cpp',
   'tui/color.cpp',
